@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0c1117" />
+    <meta name="description" content="Latchline is a human-controlled recovery ledger for agent workflows." />
+    <link rel="stylesheet" href="/src/ui/styles.css" />
+    <title>Latchline — recover with proof</title>
+  </head>
+  <body>
+    <div id="app" aria-live="polite">
+      <main class="loading-shell" aria-label="Loading Latchline">
+        <div class="loading-mark">L</div>
+        <p>Loading recovery ledger…</p>
+      </main>
+    </div>
+    <noscript>Latchline needs JavaScript enabled to show the recovery ledger.</noscript>
+    <script type="module">
+      import("/src/main.js").catch((error) => {
+        const message = error instanceof Error ? error.message : "The page module could not be loaded.";
+        const root = document.querySelector("#app");
+        if (root) {
+          root.innerHTML = `<main class="error-shell" role="alert"><div class="error-mark">!</div><p class="section-label">STARTUP CHECK</p><h1>Latchline could not start.</h1><p>${message.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[character])}</p><button class="button button-primary" onclick="location.reload()">Reload page</button></main>`;
+        }
+        console.error(error);
+      });
+    </script>
+  </body>
+</html>

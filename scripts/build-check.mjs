@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const root = process.cwd();
+const required = ['index.html', 'README.md', 'RESEARCH.md', 'LICENSE', 'src/main.js', 'src/ui/app.js', 'src/ui/styles.css', 'src/webmcp/register.js', 'src/engine/assessment.js', 'src/engine/recovery.js'];
+for (const relative of required) assert.ok(fs.existsSync(path.join(root, relative)), `missing ${relative}`);
+const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const register = fs.readFileSync(path.join(root, 'src/webmcp/register.js'), 'utf8');
+const recovery = fs.readFileSync(path.join(root, 'src/engine/recovery.js'), 'utf8');
+const research = fs.readFileSync(path.join(root, 'RESEARCH.md'), 'utf8');
+assert.match(html, /import\("\/src\/main\.js"\)/);
+assert.match(html, /<link rel="stylesheet" href="\/src\/ui\/styles\.css" \/>/);
+assert.match(html, /<noscript>/);
+assert.equal((register.match(/name: 'runs\./g) ?? []).length, 6, 'expected six registered tools');
+assert.match(recovery, /human_approval_required/);
+assert.match(register, /destructiveHint: true/);
+assert.ok((research.match(/^\| E\d+ \|/gm) ?? []).length >= 12, 'research annex needs at least 12 evidence rows');
+assert.ok(research.includes('## Selected falsifiable thesis'));
+assert.ok(research.includes('## Go/no-go gate before product code'));
+console.log(`Build contract passed: ${required.length} files, 6 WebMCP tools, ${(research.match(/^\| E\d+ \|/gm) ?? []).length} evidence rows`);
