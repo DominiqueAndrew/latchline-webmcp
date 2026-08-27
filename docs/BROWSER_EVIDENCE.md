@@ -4,7 +4,9 @@ Validation date: 2026-08-27. This evidence covers both the local worktree and th
 
 Public URL: [https://latchline-webmcp.vercel.app](https://latchline-webmcp.vercel.app)
 
-The Vercel production response returned HTTP 200 with `Cache-Control: no-store`, `X-Content-Type-Options: nosniff`, strict referrer policy, camera/microphone/geolocation disabled, and the repository Content-Security-Policy.
+Release commit: `9e357fa` · Vercel deployment: `dpl_89DmFfryxg45avsFrrygL8EGmyrE` · status: `READY`
+
+The Vercel production response returned HTTP 200 with `Cache-Control: no-store`, `X-Content-Type-Options: nosniff`, `Origin-Agent-Cluster: ?1`, `Cross-Origin-Resource-Policy: same-origin`, strict referrer policy, camera/microphone/geolocation disabled, and the repository Content-Security-Policy.
 
 ## Functional path
 
@@ -42,6 +44,6 @@ Proof-state screenshots captured locally:
 
 ## Native WebMCP boundary
 
-The authorized browser host did not expose a native WebMCP capability, and `document.modelContext` evaluated to `false`. No unsupported native command was looped or treated as proof. The page still loads its registration module and keeps the human workflow available without native discovery.
+The refreshed in-app browser advertised a `webmcp` capability wrapper, but `document.modelContext` evaluated to `false`; attempting one native discovery call returned `gpt-5.6-luna does not support command "webmcp_list_tools"`. No unsupported command was looped or treated as proof. The page still loads its registration module and keeps the human workflow available without native discovery.
 
 Human validation pack: [HUMAN_GATE_PACK.md](./HUMAN_GATE_PACK.md).

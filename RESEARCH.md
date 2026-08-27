@@ -245,7 +245,7 @@ The Devpost Hackathons connector was not callable in this runtime. No connector 
 - The first blank render was a real module-loading defect: `src/main.js` imported `./ui/styles.css` as JavaScript, and Chrome rejected the response because its MIME type was `text/css`. The fix moved the stylesheet to the document `<link>` and added a visible startup error fallback in `index.html`.
 - After the fix, the browser exposed the expected heading, three synthetic runs, evidence assessment, plan hash, audit ledger, and trust ledger. The scripted path recorded: simulation without mutation; explicit approval; apply; postcondition verification; and undo with the registry returned to `running`.
 - Geometry checks at 390×844, 768×1024, 1366×768, 1440×900, 1920×1080, and 2560×1440 reported `scrollWidth === clientWidth` at every size. The captured proof states are listed in `docs/BROWSER_EVIDENCE.md`.
-- The available browser capability list exposed page assets and Chrome DevTools Protocol but no native WebMCP capability; `document.modelContext` was `false` in the authorized browser host. This is a host limitation, not evidence that the page lacks its registration code. Native tool discovery remains a human handoff requiring a supported Chrome 149+ build and the WebMCP testing flag.
+- The refreshed in-app browser exposed a `webmcp` capability wrapper, but `document.modelContext` was `false` and one native discovery attempt returned `gpt-5.6-luna does not support command "webmcp_list_tools"`. This is a host/runtime limitation, not evidence that the page lacks its registration code. Native tool discovery remains a human handoff requiring a supported Chrome 149+ build and the WebMCP testing flag.
 
 ## Reproducible evaluation experiment
 
