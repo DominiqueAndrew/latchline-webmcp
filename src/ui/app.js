@@ -7,7 +7,7 @@ import { registerLatchlineTools, TOOL_NAMES } from '../webmcp/register.js';
 
 const STATUS_LABELS = { healthy: 'Healthy', 'recoverable-stale': 'Actionable', conflict: 'Needs review', unknown: 'Unknown' };
 
-function escape(value) { return String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[character] ?? character); }
+export function escape(value) { return String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[character] ?? character); }
 function shortTime(value) { return new Intl.DateTimeFormat('en', { hour: 'numeric', minute: '2-digit', timeZone: 'UTC' }).format(new Date(value)); }
 function statusTone(classification) { return classification === 'recoverable-stale' ? 'action' : classification === 'conflict' ? 'warn' : classification === 'healthy' ? 'good' : 'muted'; }
 

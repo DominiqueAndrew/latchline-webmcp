@@ -35,6 +35,7 @@ export function applyRecovery(state, plan, approvalToken) {
   if (!run) return { ok: false, code: 'run_not_found', message: 'The run is no longer available.' };
   const current = reconcileRun(state, plan.runId);
   if (!current.assessment || current.assessment.classification !== 'recoverable-stale') return { ok: false, code: 'precondition_failed', message: 'The recovery preconditions changed; no mutation was applied.' };
+  if (!current.plan || current.plan.planHash !== plan.planHash) return { ok: false, code: 'plan_mismatch', message: 'The current evidence no longer matches the approved plan; no mutation was applied.', plan: current.plan };
   const approval = state.approvals[plan.runId];
   if (!approval || approval.planHash !== plan.planHash || approvalToken !== plan.planHash) return { ok: false, code: 'human_approval_required', message: 'Human approval for this exact plan is required; no mutation was applied.', plan };
 

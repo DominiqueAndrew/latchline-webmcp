@@ -31,6 +31,19 @@ test('fails closed without exact human approval and plan hash', () => {
   assert.equal(state.audit.some((entry) => entry.action === 'recovery.applied'), false);
 });
 
+test('rejects changed evidence after approval instead of applying a stale plan', () => {
+  const state = createDemoState();
+  const plan = reconcileRun(state, 'run_7f3a').plan;
+  assert.ok(plan);
+  approveRecovery(state, plan);
+  state.runs[0].queuedMessages = 2;
+  const rejected = applyRecovery(state, plan, plan.planHash);
+  assert.equal(rejected.ok, false);
+  assert.equal(rejected.code, 'plan_mismatch');
+  assert.equal(state.runs[0].registryStatus, 'running');
+  assert.equal(state.audit.some((entry) => entry.action === 'recovery.applied'), false);
+});
+
 test('applies, verifies, and undoes a plan as auditable state transitions', () => {
   const state = createDemoState();
   const plan = reconcileRun(state, 'run_7f3a').plan;
@@ -46,5 +59,8 @@ test('applies, verifies, and undoes a plan as auditable state transitions', () =
   assert.equal(undone.ok, true);
   assert.equal(state.runs[0].registryStatus, 'running');
   assert.equal(state.approvals[plan.runId], undefined);
+  const reapply = applyRecovery(state, plan, plan.planHash);
+  assert.equal(reapply.ok, false);
+  assert.equal(reapply.code, 'human_approval_required');
   assert.deepEqual(state.audit.map((entry) => entry.action), ['recovery.undone', 'recovery.applied', 'approval.granted', 'runs.inspect']);
 });

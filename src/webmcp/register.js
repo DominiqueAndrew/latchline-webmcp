@@ -6,9 +6,11 @@ const TOOL_NAMES = ['runs.inspect', 'runs.reconcile', 'runs.simulate_recovery', 
 export { TOOL_NAMES };
 
 function readRunId(input) {
-  return typeof input.runId === 'string' && input.runId.length > 0 ? input.runId : null;
+  return typeof input?.runId === 'string' && input.runId.length > 0 && input.runId.length <= 64 ? input.runId : null;
 }
 
+function readBoundedString(value) { return typeof value === 'string' && value.length > 0 && value.length <= 64 ? value : null; }
+function schema(properties, required) { return { type: 'object', properties, required, additionalProperties: false }; }
 function json(value) { return JSON.stringify(value, null, 2); }
 function error(code, message) { return json({ ok: false, code, message }); }
 
@@ -21,7 +23,7 @@ export function registerLatchlineTools(context) {
   modelContext.registerTool({
     name: 'runs.inspect', title: 'Inspect a run',
     description: "Read the selected run's registry state, worker evidence, queued work, and audit-relevant events.",
-    inputSchema: { type: 'object', properties: { runId: { type: 'string' } }, required: ['runId'] }, annotations: readOnly,
+    inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId']), annotations: readOnly,
     execute: async (input) => {
       const runId = readRunId(input);
       if (!runId) return error('invalid_input', 'runId is required.');
@@ -35,7 +37,7 @@ export function registerLatchlineTools(context) {
   modelContext.registerTool({
     name: 'runs.reconcile', title: 'Reconcile run evidence',
     description: 'Classify whether a run is healthy, recoverably stale, conflicting, or unknown and return a deterministic plan when safe.',
-    inputSchema: { type: 'object', properties: { runId: { type: 'string' } }, required: ['runId'] }, annotations: readOnly,
+    inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId']), annotations: readOnly,
     execute: async (input) => {
       const runId = readRunId(input);
       if (!runId) return error('invalid_input', 'runId is required.');
@@ -49,7 +51,7 @@ export function registerLatchlineTools(context) {
   modelContext.registerTool({
     name: 'runs.simulate_recovery', title: 'Simulate recovery',
     description: 'Show the proposed state transition and postcondition without changing any run or registry state.',
-    inputSchema: { type: 'object', properties: { runId: { type: 'string' } }, required: ['runId'] }, annotations: readOnly,
+    inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId']), annotations: readOnly,
     execute: async (input) => {
       const runId = readRunId(input);
       if (!runId) return error('invalid_input', 'runId is required.');
@@ -64,10 +66,10 @@ export function registerLatchlineTools(context) {
   modelContext.registerTool({
     name: 'runs.request_action', title: 'Request human approval',
     description: 'Place a specific recovery plan in the visible approval queue. This never mutates a run and never grants approval by itself.',
-    inputSchema: { type: 'object', properties: { runId: { type: 'string' }, planHash: { type: 'string' } }, required: ['runId', 'planHash'] }, annotations: { untrustedContentHint: true },
+    inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 }, planHash: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId', 'planHash']), annotations: { untrustedContentHint: true },
     execute: async (input) => {
       const runId = readRunId(input);
-      const planHash = typeof input.planHash === 'string' ? input.planHash : null;
+      const planHash = readBoundedString(input?.planHash);
       if (!runId || !planHash) return error('invalid_input', 'runId and planHash are required.');
       const result = reconcileRun(context.getState(), runId);
       if (!result.plan || result.plan.planHash !== planHash) return error('plan_mismatch', 'The requested plan is not current; refresh inspection.');
@@ -81,11 +83,11 @@ export function registerLatchlineTools(context) {
   modelContext.registerTool({
     name: 'runs.apply_recovery', title: 'Apply approved recovery',
     description: 'Apply the exact approved recovery plan only after the page records a human approval token bound to its plan hash.',
-    inputSchema: { type: 'object', properties: { runId: { type: 'string' }, planHash: { type: 'string' }, approvalToken: { type: 'string' } }, required: ['runId', 'planHash', 'approvalToken'] }, annotations: { destructiveHint: true, untrustedContentHint: true },
+    inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 }, planHash: { type: 'string', minLength: 1, maxLength: 64 }, approvalToken: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId', 'planHash', 'approvalToken']), annotations: { destructiveHint: true, untrustedContentHint: true },
     execute: async (input) => {
       const runId = readRunId(input);
-      const planHash = typeof input.planHash === 'string' ? input.planHash : null;
-      const approvalToken = typeof input.approvalToken === 'string' ? input.approvalToken : null;
+      const planHash = readBoundedString(input?.planHash);
+      const approvalToken = readBoundedString(input?.approvalToken);
       if (!runId || !planHash || !approvalToken) return error('invalid_input', 'runId, planHash, and approvalToken are required.');
       const state = context.getState();
       const current = reconcileRun(state, runId);
@@ -101,10 +103,10 @@ export function registerLatchlineTools(context) {
   modelContext.registerTool({
     name: 'runs.verify_postcondition', title: 'Verify recovery',
     description: 'Verify the registry and worker agree after a recovery and that the approved plan is present in the audit ledger.',
-    inputSchema: { type: 'object', properties: { runId: { type: 'string' }, planHash: { type: 'string' } }, required: ['runId', 'planHash'] }, annotations: readOnly,
+    inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 }, planHash: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId', 'planHash']), annotations: readOnly,
     execute: async (input) => {
       const runId = readRunId(input);
-      const planHash = typeof input.planHash === 'string' ? input.planHash : null;
+      const planHash = readBoundedString(input?.planHash);
       if (!runId || !planHash) return error('invalid_input', 'runId and planHash are required.');
       const output = json(verifyPostcondition(context.getState(), runId, planHash));
       context.setToolResult(output);
