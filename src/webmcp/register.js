@@ -18,9 +18,10 @@ function error(code, message) { return json({ ok: false, code, message }); }
 export function registerLatchlineTools(context) {
   const modelContext = document.modelContext;
   if (!modelContext) return { nativeAvailable: false, names: TOOL_NAMES };
+  const registerTool = (tool) => document.modelContext.registerTool(tool);
 
   const readOnly = { readOnlyHint: true, untrustedContentHint: true };
-  modelContext.registerTool({
+  registerTool({
     name: 'runs.inspect', title: 'Inspect a run',
     description: "Read the selected run's registry state, worker evidence, queued work, and audit-relevant events.",
     inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId']), annotations: readOnly,
@@ -34,7 +35,7 @@ export function registerLatchlineTools(context) {
     },
   });
 
-  modelContext.registerTool({
+  registerTool({
     name: 'runs.reconcile', title: 'Reconcile run evidence',
     description: 'Classify whether a run is healthy, recoverably stale, conflicting, or unknown and return a deterministic plan when safe.',
     inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId']), annotations: readOnly,
@@ -48,7 +49,7 @@ export function registerLatchlineTools(context) {
     },
   });
 
-  modelContext.registerTool({
+  registerTool({
     name: 'runs.simulate_recovery', title: 'Simulate recovery',
     description: 'Show the proposed state transition and postcondition without changing any run or registry state.',
     inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId']), annotations: readOnly,
@@ -63,7 +64,7 @@ export function registerLatchlineTools(context) {
     },
   });
 
-  modelContext.registerTool({
+  registerTool({
     name: 'runs.request_action', title: 'Request human approval',
     description: 'Place a specific recovery plan in the visible approval queue. This never mutates a run and never grants approval by itself.',
     inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 }, planHash: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId', 'planHash']), annotations: { untrustedContentHint: true },
@@ -80,7 +81,7 @@ export function registerLatchlineTools(context) {
     },
   });
 
-  modelContext.registerTool({
+  registerTool({
     name: 'runs.apply_recovery', title: 'Apply approved recovery',
     description: 'Apply the exact approved recovery plan only after the page records a human approval token bound to its plan hash.',
     inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 }, planHash: { type: 'string', minLength: 1, maxLength: 64 }, approvalToken: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId', 'planHash', 'approvalToken']), annotations: { untrustedContentHint: true },
@@ -100,7 +101,7 @@ export function registerLatchlineTools(context) {
     },
   });
 
-  modelContext.registerTool({
+  registerTool({
     name: 'runs.verify_postcondition', title: 'Verify recovery',
     description: 'Verify the registry and worker agree after a recovery and that the approved plan is present in the audit ledger.',
     inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 }, planHash: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId', 'planHash']), annotations: readOnly,

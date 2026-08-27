@@ -14,6 +14,7 @@ assert.match(html, /import\("\/src\/main\.js"\)/);
 assert.match(html, /<link rel="stylesheet" href="\/src\/ui\/styles\.css" \/>/);
 assert.match(html, /<noscript>/);
 assert.equal((register.match(/name: 'runs\./g) ?? []).length, 6, 'expected six registered tools');
+assert.match(register, /document\.modelContext\.registerTool/);
 assert.match(recovery, /human_approval_required/);
 assert.match(register, /readOnlyHint: true/);
 assert.match(register, /untrustedContentHint: true/);
