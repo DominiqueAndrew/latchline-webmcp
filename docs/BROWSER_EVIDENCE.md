@@ -4,9 +4,9 @@ Validation date: 2026-08-27. This evidence covers both the local worktree and th
 
 Public URL: [https://latchline-webmcp.vercel.app](https://latchline-webmcp.vercel.app)
 
-Release commit: `4fd45902a03a4ed9d579f9e661d34f24af07acd9` · Vercel deployment: `dpl_BnsuVP8Cc8HeLsujsg5qUzjLnQds` · status: `READY` · deployment URL: [latchline-webmcp-5pll251bf-rhetorix.vercel.app](https://latchline-webmcp-5pll251bf-rhetorix.vercel.app)
+Historical baseline receipt: release commit `4fd45902a03a4ed9d579f9e661d34f24af07acd9` · Vercel deployment `dpl_BnsuVP8Cc8HeLsujsg5qUzjLnQds` · status `READY` · deployment URL [latchline-webmcp-5pll251bf-rhetorix.vercel.app](https://latchline-webmcp-5pll251bf-rhetorix.vercel.app). This is retained for provenance only and is not the current release identity.
 
-The Vercel production inspection shows `Cache-Control: no-store`, `Vercel-CDN-Cache-Control: no-store`, `X-Content-Type-Options: nosniff`, `Origin-Agent-Cluster: ?1`, `Cross-Origin-Resource-Policy: same-origin`, strict referrer policy, camera/microphone/geolocation disabled, `tools=(self)`, and the repository Content-Security-Policy. A live root request returned HTTP 200 with HTML content type, `Cache-Control: no-store`, the configured CSP/referrer/nosniff headers, HSTS, and a Vercel request ID.
+The Vercel production inspection for the published release shows `Cache-Control: no-store`, `Vercel-CDN-Cache-Control: no-store`, `X-Content-Type-Options: nosniff`, `Origin-Agent-Cluster: ?1`, `Cross-Origin-Resource-Policy: same-origin`, strict referrer policy, camera/microphone/geolocation disabled, `tools=(self)`, and the repository Content-Security-Policy. Because Vercel deployment IDs roll on every published commit, obtain the current release identity and any fresh wire-level response receipt with `vercel inspect https://latchline-webmcp.vercel.app --json` before presenting this evidence as current.
 
 ## Functional path
 
