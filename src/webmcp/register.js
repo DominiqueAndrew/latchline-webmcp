@@ -65,14 +65,13 @@ export function registerLatchlineTools(context) {
     name: 'runs.request_action', title: 'Request human approval',
     description: 'Place a specific recovery plan in the visible approval queue. This never mutates a run and never grants approval by itself.',
     inputSchema: { type: 'object', properties: { runId: { type: 'string' }, planHash: { type: 'string' } }, required: ['runId', 'planHash'] }, annotations: { untrustedContentHint: true },
-    execute: async (input, client) => {
+    execute: async (input) => {
       const runId = readRunId(input);
       const planHash = typeof input.planHash === 'string' ? input.planHash : null;
       if (!runId || !planHash) return error('invalid_input', 'runId and planHash are required.');
       const result = reconcileRun(context.getState(), runId);
       if (!result.plan || result.plan.planHash !== planHash) return error('plan_mismatch', 'The requested plan is not current; refresh inspection.');
       context.requestApproval(result.plan);
-      if (client?.requestUserInteraction) await client.requestUserInteraction({ message: 'Latchline placed a recovery plan in the visible approval queue. Review it before approving.' });
       const output = json({ ok: true, code: 'approval_requested', message: 'Visible human approval is required before apply.', plan: result.plan });
       context.setToolResult(output);
       return output;
