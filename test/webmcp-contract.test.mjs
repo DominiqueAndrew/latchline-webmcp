@@ -28,7 +28,8 @@ test('registers six bounded schemas and fails closed through the tool callbacks'
       assert.equal(tool.inputSchema.properties.runId.maxLength, 64);
     }
     const apply = registered.find((tool) => tool.name === 'runs.apply_recovery');
-    assert.equal(apply.annotations.destructiveHint, true);
+    assert.equal(apply.annotations.readOnlyHint, undefined);
+    assert.equal(apply.annotations.untrustedContentHint, true);
     assert.equal(JSON.parse(await registered.find((tool) => tool.name === 'runs.inspect').execute(null)).code, 'invalid_input');
     assert.equal(JSON.parse(await registered.find((tool) => tool.name === 'runs.inspect').execute({ runId: 'r'.repeat(65) })).code, 'invalid_input');
     assert.equal(JSON.parse(await registered.find((tool) => tool.name === 'runs.reconcile').execute({ runId: 'missing' })).code, 'run_not_found');

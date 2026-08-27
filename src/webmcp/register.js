@@ -83,7 +83,7 @@ export function registerLatchlineTools(context) {
   modelContext.registerTool({
     name: 'runs.apply_recovery', title: 'Apply approved recovery',
     description: 'Apply the exact approved recovery plan only after the page records a human approval token bound to its plan hash.',
-    inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 }, planHash: { type: 'string', minLength: 1, maxLength: 64 }, approvalToken: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId', 'planHash', 'approvalToken']), annotations: { destructiveHint: true, untrustedContentHint: true },
+    inputSchema: schema({ runId: { type: 'string', minLength: 1, maxLength: 64 }, planHash: { type: 'string', minLength: 1, maxLength: 64 }, approvalToken: { type: 'string', minLength: 1, maxLength: 64 } }, ['runId', 'planHash', 'approvalToken']), annotations: { untrustedContentHint: true },
     execute: async (input) => {
       const runId = readRunId(input);
       const planHash = readBoundedString(input?.planHash);

@@ -6,6 +6,8 @@ These are handoff instructions, not completed claims. No account agreements, CAP
 
 Required: a supported Chrome 149+ build with the WebMCP testing flag enabled, or another authorized host that exposes the WebMCP DevTools panel.
 
+Spec alignment: the current WebMCP draft defines `readOnlyHint` and `untrustedContentHint`; it does not define a native `destructiveHint`. Latchline communicates the mutation boundary in the tool description and enforces it in page-owned approval state, exact plan hashes, and precondition checks. The deployment sets `Origin-Agent-Cluster: ?1` and explicitly permits same-origin WebMCP with `tools=(self)` while disabling unrelated camera, microphone, and geolocation permissions.
+
 1. Open the deployed Latchline URL in that browser.
 2. Open DevTools → Application → WebMCP and confirm the six tools are listed: `runs.inspect`, `runs.reconcile`, `runs.simulate_recovery`, `runs.request_action`, `runs.apply_recovery`, and `runs.verify_postcondition`.
 3. Invoke `runs.inspect` and `runs.reconcile` for `run_7f3a`; save the tool inputs/outputs and the plan hash as evidence.
@@ -15,7 +17,7 @@ Required: a supported Chrome 149+ build with the WebMCP testing flag enabled, or
 
 Fallback: the public page, deterministic Node tests, and browser workflow remain usable without native discovery. Record the browser version, flag state, exact limitation, and local evidence instead of claiming native validation.
 
-Observed authorized-host limitation on 2026-08-27: the in-app tab advertised a `webmcp` capability wrapper, but `document.modelContext` was `false`; one discovery attempt returned `gpt-5.6-luna does not support command "webmcp_list_tools"`. This is the complete negative evidence for this host. Do not repeat the unsupported call in a loop.
+Observed authorized-host limitation on 2026-08-27: the in-app tab advertised a `webmcp` capability wrapper, but `document.modelContext` was `false`; one discovery attempt returned `gpt-5.6-luna does not support command "webmcp_list_tools"`. A connected Chrome tab rendered `WebMCP-ready page`; the local Chrome binary is `151.0.7922.174`, but the controlled browser did not expose the testing-flag state or the WebMCP DevTools panel. This is the complete negative evidence for the available hosts. Do not repeat the unsupported call in a loop.
 
 Exact handoff evidence to capture on a supported host: browser name and version; `chrome://flags/#enable-webmcp-testing` state; DevTools → Application → WebMCP screenshot showing all six tool names; one read-only `runs.inspect` output for `run_7f3a`; one `runs.reconcile` output containing `pln_c33b1161`; and the pre-approval `human_approval_required` result from `runs.apply_recovery`. Do not submit or transmit credentials, private data, or the Devpost entry during this validation.
 
