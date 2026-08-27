@@ -1,5 +1,7 @@
 # Latchline
 
+Live demo: [latchline-webmcp.vercel.app](https://latchline-webmcp.vercel.app)
+
 Latchline is a small, human-controlled recovery ledger for agent workflows. It makes one dangerous class of failure legible: the worker finished, but the control-plane registry still says `running`.
 
 The demo is intentionally synthetic and local-first. It exposes six typed WebMCP tools that share the same visible state:

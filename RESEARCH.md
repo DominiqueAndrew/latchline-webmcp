@@ -241,6 +241,7 @@ The Devpost Hackathons connector was not callable in this runtime. No connector 
 ## Browser validation evidence (2026-08-27)
 
 - Local URL: `http://127.0.0.1:4173/?evidence=initial`, served from this repository with `npm run dev -- --bind 127.0.0.1`.
+- Public URL: [https://latchline-webmcp.vercel.app](https://latchline-webmcp.vercel.app), verified with HTTP 200 and the same workflow after the deployment build completed.
 - The first blank render was a real module-loading defect: `src/main.js` imported `./ui/styles.css` as JavaScript, and Chrome rejected the response because its MIME type was `text/css`. The fix moved the stylesheet to the document `<link>` and added a visible startup error fallback in `index.html`.
 - After the fix, the browser exposed the expected heading, three synthetic runs, evidence assessment, plan hash, audit ledger, and trust ledger. The scripted path recorded: simulation without mutation; explicit approval; apply; postcondition verification; and undo with the registry returned to `running`.
 - Geometry checks at 390×844, 768×1024, 1366×768, 1440×900, 1920×1080, and 2560×1440 reported `scrollWidth === clientWidth` at every size. The captured proof states are listed in `docs/BROWSER_EVIDENCE.md`.

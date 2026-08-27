@@ -1,10 +1,16 @@
 # Browser evidence
 
-Validation date: 2026-08-27. This is local browser evidence for the current worktree; it is not a claim of Devpost submission or native WebMCP discovery.
+Validation date: 2026-08-27. This evidence covers both the local worktree and the public deployment; it is not a claim of Devpost submission or native WebMCP discovery.
+
+Public URL: [https://latchline-webmcp.vercel.app](https://latchline-webmcp.vercel.app)
+
+The Vercel production response returned HTTP 200 with `Cache-Control: no-store`, `X-Content-Type-Options: nosniff`, strict referrer policy, camera/microphone/geolocation disabled, and the repository Content-Security-Policy.
 
 ## Functional path
 
-URL: `http://127.0.0.1:4173/?evidence=initial`
+Local URL: `http://127.0.0.1:4173/?evidence=initial`
+
+The same route was replayed against the public URL with `?evidence=live-ready`; after the startup window settled, the heading and stale scenario were present, the startup error was absent, and `scrollWidth === clientWidth` at 1440 px.
 
 The browser interaction was performed through accessible button names:
 
