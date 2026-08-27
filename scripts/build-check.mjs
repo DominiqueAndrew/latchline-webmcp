@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = process.cwd();
-const required = ['index.html', 'README.md', 'RESEARCH.md', 'LICENSE', 'src/main.js', 'src/ui/app.js', 'src/ui/styles.css', 'src/webmcp/register.js', 'src/engine/assessment.js', 'src/engine/recovery.js'];
+const required = ['index.html', 'README.md', 'RESEARCH.md', 'LICENSE', 'src/main.js', 'src/ui/app.js', 'src/ui/styles.css', 'src/webmcp/register.js', 'src/engine/assessment.js', 'src/engine/recovery.js', 'src/evaluation/harness.js', 'scripts/evaluate.mjs', 'test/evaluation.test.mjs'];
 for (const relative of required) assert.ok(fs.existsSync(path.join(root, relative)), `missing ${relative}`);
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const register = fs.readFileSync(path.join(root, 'src/webmcp/register.js'), 'utf8');

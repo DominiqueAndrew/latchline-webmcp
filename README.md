@@ -18,8 +18,8 @@ Nothing connects to a production runner, private account, or real database. The 
 ## Run locally
 
 ```bash
-npm install
 npm run check
+npm run evaluate
 npm run dev
 ```
 

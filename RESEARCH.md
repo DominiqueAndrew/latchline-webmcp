@@ -247,6 +247,35 @@ The Devpost Hackathons connector was not callable in this runtime. No connector 
 - Geometry checks at 390×844, 768×1024, 1366×768, 1440×900, 1920×1080, and 2560×1440 reported `scrollWidth === clientWidth` at every size. The captured proof states are listed in `docs/BROWSER_EVIDENCE.md`.
 - The available browser capability list exposed page assets and Chrome DevTools Protocol but no native WebMCP capability; `document.modelContext` was `false` in the authorized browser host. This is a host limitation, not evidence that the page lacks its registration code. Native tool discovery remains a human handoff requiring a supported Chrome 149+ build and the WebMCP testing flag.
 
+## Reproducible evaluation experiment
+
+This is a deterministic engineering experiment, not a market-prevalence claim. It isolates the cost of structured state access in the three public fixtures: recoverable stale (`run_7f3a`), healthy (`run_2b91`), and conflicting (`run_c03d`). The implementation is `src/evaluation/harness.js`; run it with `npm run evaluate`.
+
+### Variables and decision rules
+
+For scenario `s` and method `m`:
+
+- `T(s,m)` is the count of modeled operator/agent steps until a safe stopping point or verified recovery; it is a unit of interaction work, not elapsed wall-clock time.
+- `R(s,m)` is the number of worker reruns. `U(s,m)` is the number of state mutations without an exact visible human approval. `E(s,m)` is 1 when the original event ledger remains intact.
+- `safe(s,m) = 1` for the stale fixture only when registry and worker both end at `succeeded` and the audit ledger contains the recovery; for healthy or conflict fixtures it is 1 only when the method stops without mutation or rerun.
+- The optional review cost is `J = T + 3R + 4U`. The weights make an unauthorized mutation more costly than a rerun and a rerun more costly than one extra interaction step; changing them does not change the primary safety outcomes below.
+
+The DOM baseline is deliberately generous: perfect selectors, no stale text, and a human still clicks approval. The blind baseline restarts every run without inspecting evidence. These assumptions make the comparison conservative for WebMCP and are not estimates of real browser latency.
+
+### Results
+
+| Method | Safe rate (3 fixtures) | Median safe steps | Reruns | Unauthorized mutations | Evidence preserved |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Structured WebMCP path | 100% | 2 | 0 | 0 | 100% |
+| DOM-only, best case | 100% | 4 | 0 | 0 | 100% |
+| Blind restart | 0% | n/a | 3 | 3 | 100% |
+
+On the selected stale fixture specifically, structured recovery takes 6 modeled steps versus 9 for the best-case DOM path: `(9 - 6) / 9 = 33.3%` fewer interaction steps, with both preserving the original five event records. Blind restart takes one step but is not safe because it reruns completed work and mutates without approval. The result supports a narrow claim—typed shared state can reduce orchestration overhead while retaining the safety boundary—not a claim that WebMCP universally improves every workflow.
+
+### Limitations and next experiment
+
+`n = 3` fixture templates, no live runner, no network failure injection, no human study, and no confidence interval. The next falsification step is a versioned replay corpus of anonymized stale-run traces with measured wall-clock interaction time and independently reviewed safe-outcome labels. Until that exists, the numbers are reproducible design evidence only.
+
 ## Research non-goals
 
 - No product code, new repository, or deployment is created as part of this pre-build sprint.
