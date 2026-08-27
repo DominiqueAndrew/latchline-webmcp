@@ -18,7 +18,7 @@ Target length: 90–120 seconds. Use the public deployment once its URL is recor
 
 ## Judge point
 
-The WebMCP value is shared, typed state: an agent can request a bounded inspection and receive a structured assessment and plan tied to the exact page state. The destructive tool is separately annotated and fails closed unless the visible page has recorded approval for the exact plan hash.
+The WebMCP value is shared, typed state: an agent can request a bounded inspection and receive a structured assessment and plan tied to the exact page state. The mutation tool is clearly marked as untrusted content and fails closed unless the visible page has recorded approval for the exact plan hash.
 
 ## Recording notes
 
