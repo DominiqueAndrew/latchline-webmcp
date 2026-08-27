@@ -44,6 +44,6 @@ Proof-state screenshots captured locally:
 
 ## Native WebMCP boundary
 
-The refreshed in-app browser advertised a `webmcp` capability wrapper, but `document.modelContext` evaluated to `false`; attempting one native discovery call returned `gpt-5.6-luna does not support command "webmcp_list_tools"`. No unsupported command was looped or treated as proof. The page still loads its registration module and keeps the human workflow available without native discovery.
+The refreshed Codex In-app Browser advertised a `webmcp` capability wrapper, but `document.modelContext` evaluated to `false`; attempting one native discovery call returned `gpt-5.6-luna does not support command "webmcp_list_tools"`. Its raw CDP bridge also did not expose a browser version. No unsupported command was looped or treated as proof. The page still loads its registration module and keeps the human workflow available without native discovery.
 
 Human validation pack: [HUMAN_GATE_PACK.md](./HUMAN_GATE_PACK.md).
