@@ -43,6 +43,19 @@ test('registers six bounded schemas and fails closed through the tool callbacks'
   }
 });
 
+test('does not advertise native WebMCP without a callable registration API', () => {
+  const originalDocument = globalThis.document;
+  globalThis.document = { modelContext: {} };
+  try {
+    const bridge = registerLatchlineTools({ getState: () => createDemoState(), saveState: () => {}, setToolResult: () => {}, requestApproval: () => {} });
+    assert.equal(bridge.nativeAvailable, false);
+    assert.deepEqual(bridge.names, TOOL_NAMES);
+  } finally {
+    if (originalDocument === undefined) delete globalThis.document;
+    else globalThis.document = originalDocument;
+  }
+});
+
 test('render escaping neutralizes markup-shaped evidence', () => {
   assert.equal(escape('<img src=x onerror=alert(1)>'), '&lt;img src=x onerror=alert(1)&gt;');
   assert.equal(escape('"quoted" & \'apostrophe\''), '&quot;quoted&quot; &amp; &#039;apostrophe&#039;');

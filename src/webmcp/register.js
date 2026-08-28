@@ -17,7 +17,7 @@ function error(code, message) { return json({ ok: false, code, message }); }
 /** @param {{getState: Function, saveState: Function, setToolResult: Function, requestApproval: Function}} context */
 export function registerLatchlineTools(context) {
   const modelContext = document.modelContext;
-  if (!modelContext) return { nativeAvailable: false, names: TOOL_NAMES };
+  if (!modelContext || typeof modelContext.registerTool !== 'function') return { nativeAvailable: false, names: TOOL_NAMES };
   const registerTool = (tool) => document.modelContext.registerTool(tool);
 
   const readOnly = { readOnlyHint: true, untrustedContentHint: true };
