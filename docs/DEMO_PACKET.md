@@ -73,6 +73,9 @@ evidence instead.
 - **License:** MIT
 - **Video URL:** human-owned public YouTube link, to be added after playback and
   privacy review
+- **Repository provenance:** The first repository commit is `299406a`, dated
+  `2026-08-27T18:49:56+02:00`; retain this dated history so a human can show the
+  project was created during the published submission period if requested.
 - **Implementation summary:** The page registers six imperative WebMCP tools
   with bounded JSON Schemas. Read-only tools expose evidence and plans; the
   action tool requires a page-recorded approval token equal to the current plan
@@ -92,6 +95,8 @@ evidence instead.
       the video.
 - [ ] Human confirms the repository is public, contains source/instructions,
       and visibly exposes the MIT license.
+- [ ] Human retains the dated repository history and confirms any eligibility or
+      new-versus-existing-project requirements before submitting.
 - [ ] Human enters the text description, live URL, repository URL, and public
       video URL on Devpost, then performs the final submission.
 - [ ] Human verifies the live Devpost record; do not describe the project as
