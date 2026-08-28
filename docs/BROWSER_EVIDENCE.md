@@ -4,9 +4,10 @@ Validation date: 2026-08-28. This evidence covers both the local worktree and th
 
 Public URL: [https://latchline-webmcp.vercel.app](https://latchline-webmcp.vercel.app)
 
-Current release receipt: commit `b730ab01fc703532fb8ab70dd03b063d707c49a1` ·
-Vercel deployment `dpl_2fDia6gF3ZfA7o4xXC8WYhWTdH64` · status `READY` · deployment
-URL [latchline-webmcp-d8i5jl2xw-rhetorix.vercel.app](https://latchline-webmcp-d8i5jl2xw-rhetorix.vercel.app).
+Resolve the current release receipt at review time from the public alias with
+`vercel inspect https://latchline-webmcp.vercel.app --json`. Vercel deployment
+IDs and deployment URLs roll on every published commit, so this document does
+not freeze a mutable “current” identity.
 
 Historical baseline receipt: release commit `4fd45902a03a4ed9d579f9e661d34f24af07acd9` · Vercel deployment `dpl_BnsuVP8Cc8HeLsujsg5qUzjLnQds` · status `READY` · deployment URL [latchline-webmcp-5pll251bf-rhetorix.vercel.app](https://latchline-webmcp-5pll251bf-rhetorix.vercel.app). This is retained for provenance only and is not the current release identity.
 
