@@ -1,6 +1,6 @@
 # Browser evidence
 
-Validation date: 2026-08-27. This evidence covers both the local worktree and the public deployment; it is not a claim of Devpost submission or native WebMCP discovery.
+Validation date: 2026-08-28. This evidence covers both the local worktree and the public deployment; it is not a claim of Devpost submission or native WebMCP discovery.
 
 Public URL: [https://latchline-webmcp.vercel.app](https://latchline-webmcp.vercel.app)
 
@@ -40,6 +40,16 @@ Proof-state screenshots captured locally by the responsive review:
 
 - `output/playwright/initial-mobile.png`, `initial-tablet.png`, `initial-laptop.png`, `initial-desktop.png`, `initial-large-desktop.png`, `initial-wide-desktop.png`
 - `output/playwright/recovered-top-mobile.png`, `recovered-top-tablet.png`, `recovered-top-laptop.png`, `recovered-top-desktop.png`, `recovered-top-large-desktop.png`, `recovered-top-wide-desktop.png`
+
+Latest public smoke and responsive receipt after the favicon-only release
+`f3256dd`: the six viewport captures are also recorded as
+`output/playwright/heartbeat-mobile.png`, `heartbeat-tablet.png`,
+`heartbeat-laptop.png`, `heartbeat-desktop.png`, `heartbeat-large-desktop.png`,
+and `heartbeat-wide-desktop.png`. Each reported
+`scrollWidth === clientWidth`; the public page title, initial notice, and six-tool
+contract panel rendered as expected. Chromium reported zero application errors;
+its sole warning was the expected `tools` origin-trial notice while native
+WebMCP is unavailable in the host.
 
 ## Native WebMCP boundary
 
